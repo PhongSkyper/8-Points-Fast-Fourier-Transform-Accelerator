@@ -103,7 +103,7 @@ cd fft_floating_point/04_tb
 - **FFT Points**: 8
 - **Data Format**: 32-bit Floating-Point (IEEE 754)
 - **Architecture**: Radix-2 DIT with pipeline
-- **Latency**: ~50 cycles (depending on configuration)
+- **Latency**: ~50 cycles
 - **Operating Frequency**: Up to 100 MHz (on Cyclone V)
 
 ## Documentation
