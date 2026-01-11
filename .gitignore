@@ -1,0 +1,47 @@
+# Quartus Prime project files
+*.qws
+*.bak
+*.rpt
+*.summary
+*.smsg
+*.done
+*.jdi
+*.pin
+*.pof
+*.sof
+*.qar
+
+# Database and incremental compilation
+db/
+incremental_db/
+.qsys_edit/
+
+# Output files
+*.sof
+*.pof
+*.jic
+*.jam
+
+# Simulation files
+simulation/
+*.vwf
+*.sdo
+
+# Temporary files
+*.log
+*~
+*.swp
+*.tmp
+
+# Output directories
+03_outputs/
+
+# OS specific
+.DS_Store
+Thumbs.db
+*.lnk
+
+# IDE files
+.vscode/
+.idea/
+*.code-workspace
