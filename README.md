@@ -45,6 +45,41 @@ This project implements an 8-point FFT algorithm using Radix-2 Decimation-In-Tim
 ### 1. FFT Top Module (`fft_8point_top.sv`)
 The top-level module for 8-point FFT, integrating all butterfly stages.
 
+#### I/O Interface
+
+| Port Name | Direction | Width | Type | Description |
+|-----------|-----------|-------|------|-------------|
+| **Clock & Reset** | | | | |
+| `i_clk` | Input | 1 | logic | System clock |
+| `i_rst_n` | Input | 1 | logic | Asynchronous active-low reset |
+| **Control Signals** | | | | |
+| `i_start` | Input | 1 | logic | Start FFT computation |
+| `i_valid` | Input | 1 | logic | Input data valid signal (8 cycles) |
+| `o_valid` | Output | 1 | logic | Output data valid signal |
+| `o_done` | Output | 1 | logic | FFT computation complete |
+| **Input Data** | | | | |
+| `i_re` | Input | 32 | logic | Input real part (IEEE 754 single-precision) |
+| `i_im` | Input | 32 | logic | Input imaginary part (IEEE 754 single-precision) |
+| **Output Data** | | | | |
+| `o_re` | Output | 32 | logic | Output real part (IEEE 754 single-precision) |
+| `o_im` | Output | 32 | logic | Output imaginary part (IEEE 754 single-precision) |
+
+#### Parameters
+
+| Parameter | Default | Description |
+|-----------|---------|-------------|
+| `L_MUL` | 2 | Pipeline depth for floating-point multiplication |
+| `L_ADD` | 2 | Pipeline depth for floating-point addition/subtraction |
+
+#### Operation Sequence
+
+1. **Reset**: Assert `i_rst_n = 0` to initialize
+2. **Start**: Assert `i_start = 1` to begin FFT computation
+3. **Input**: Provide 8 complex samples with `i_valid = 1` for 8 consecutive cycles
+4. **Processing**: Internal pipeline processes data (latency = 1 + L_MUL + 2*L_ADD cycles)
+5. **Output**: 8 complex frequency-domain samples appear with `o_valid = 1`
+6. **Complete**: `o_done = 1` indicates FFT operation finished
+
 ### 2. Floating-Point Units
 - `fpu_mult_pipe.sv` - FPU multiplication with pipeline
 - `fpu_add_sub_pipe.sv` - FPU addition/subtraction with pipeline
@@ -60,11 +95,13 @@ Controls data flow and synchronizes FFT stages.
 
 ### Hardware:
 - FPGA Cyclone V (DE10-Standard Board) or equivalent
-- Minimum: 50,000 logic elements
+- LEs: 50,000 logic elements
+- Registers: 
 
 ### Software:
-- Intel Quartus Prime (version 20.1 or later)
-- ModelSim or QuestaSim (for simulation)
+- Intel Quartus Prime (version 20.1)
+- Cadence Xcelium (for simulation)
+- Cadence Simvision (for waveform viewing)
 - Python 3.x (for scripts and testbench generation)
 
 ## Getting Started
@@ -95,7 +132,10 @@ cd fft_floating_point
 
 ```bash
 cd fft_floating_point/04_tb
-# Run simulation with ModelSim or QuestaSim
+# Run simulation with Xcelium
+xrun -f filelist.f +access+r
+# View waveforms with Simvision
+simvision waves.shm
 ```
 
 ## Specifications
