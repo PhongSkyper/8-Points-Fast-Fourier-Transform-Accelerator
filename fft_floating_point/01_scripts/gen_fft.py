@@ -60,7 +60,7 @@ try:
             # Ghi vào file Input (Hex)
             f_in.write(f"{float_to_hex(val_re)} {float_to_hex(val_im)}\n")
 
-        # 2. Tính DFT chuẩn bằng hàm tự viết tay
+        # 2. Tính tay DFT 
         exp_re, exp_im = manual_dft(curr_in_re, curr_in_im)
 
         # 3. Ghi vào file Expected (Hex)
